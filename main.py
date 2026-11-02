@@ -2,23 +2,23 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-def reponse_ia(message):
-    message = message.lower()
-    if "salut" in message or "bonjour" in message:
-        return "Salut ! Moi c'est Richie-IA 🤖 Comment je peux t'aider ?"
-    elif "qui es tu" in message:
-        return "Je suis Richie-IA, une intelligence artificielle cree par Richie"
-    else:
-        return f"Tu as dit : '{message}'. Pose-moi une autre question !"
-
 @app.route('/')
 def home():
-    return "<h1>Richie-IA est en ligne ✅</h1><p>Test : /chat?message=salut</p>"
+    return "Richie-IA est en ligne ✅ - Bot IA 24/7"
 
 @app.route('/chat')
 def chat():
     msg = request.args.get('message', '')
-    return jsonify({"question": msg, "reponse": reponse_ia(msg)})
+    if not msg:
+        return jsonify({"error": "envoie ?message=ton_message"})
+    
+    # Réponse simple de ton IA
+    reponse = f"Richie-IA a reçu: {msg}. Je suis en ligne et prêt à t'aider ! 🚀"
+    return jsonify({
+        "question": msg,
+        "reponse": reponse,
+        "status": "en ligne"
+    })
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=10000)
